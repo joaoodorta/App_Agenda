@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:text="Visualisação de Compromissos"
         android:textSize="20sp"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>
