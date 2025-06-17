@@ -32,6 +32,17 @@ public class FragmentInferior extends Fragment {
 
         Button btnHoje = view.findViewById(R.id.btn_hoje);
         Button btnOutraData = view.findViewById(R.id.btn_outra_data);
+        Button btnApagarTudo = view.findViewById(R.id.btn_apagar_tudo);
+        btnApagarTudo.setOnClickListener(v -> {
+            Executors.newSingleThreadExecutor().execute(() -> {
+                AppDatabase.getInstance(requireContext()).compromissoDao().deleteAll();
+
+                requireActivity().runOnUiThread(() -> {
+                    textoCompromissos.setText("Todos os compromissos foram apagados.");
+                });
+            });
+        });
+
         textoCompromissos = view.findViewById(R.id.texto_compromissos);
 
         btnHoje.setOnClickListener(v -> carregarCompromissosDoDia(obterDataHoje()));

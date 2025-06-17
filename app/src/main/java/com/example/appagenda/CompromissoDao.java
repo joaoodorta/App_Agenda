@@ -17,4 +17,6 @@ public interface CompromissoDao {
     @Query("SELECT * FROM Compromisso WHERE data = :data ORDER BY hora ASC")
     List<com.example.appagenda.model.Compromisso> getByDate(String data);
 
+    @Query("DELETE FROM Compromisso")
+    void deleteAll();
 }

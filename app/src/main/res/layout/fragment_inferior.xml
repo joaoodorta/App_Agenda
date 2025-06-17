@@ -51,5 +51,14 @@
             android:padding="16dp" />
     </ScrollView>
 
+    <Button
+        android:id="@+id/btn_apagar_tudo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apagar Todos os Compromissos"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
 
 </LinearLayout>
