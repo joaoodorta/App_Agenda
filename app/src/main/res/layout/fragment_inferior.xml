@@ -35,4 +35,21 @@
             android:layout_marginStart="16dp" />
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/texto_compromissos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Compromissos de hoje aparecerão aqui"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:padding="16dp" />
+    </ScrollView>
+
+
 </LinearLayout>
