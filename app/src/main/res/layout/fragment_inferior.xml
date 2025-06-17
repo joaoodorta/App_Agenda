@@ -12,5 +12,53 @@
         android:text="Visualisação de Compromissos"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="16dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btn_hoje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hoje" />
+
+        <Button
+            android:id="@+id/btn_outra_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Outra Data"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/texto_compromissos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Compromissos de hoje aparecerão aqui"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:padding="16dp" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_apagar_tudo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apagar Todos os Compromissos"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
+
 </LinearLayout>

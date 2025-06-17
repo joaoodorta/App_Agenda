@@ -4,30 +4,36 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.widget.TimePicker;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+
 import java.util.Calendar;
 
+public class FragmentoTimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+    public interface OnTimeSelectedListener {
+        void onTimeSelected(String hora);
+    }
 
-public class FragmentoTimePicker extends DialogFragment
-        implements TimePickerDialog.OnTimeSetListener {
+    private OnTimeSelectedListener listener;
 
+    public FragmentoTimePicker(OnTimeSelectedListener listener) {
+        this.listener = listener;
+    }
+
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current time as the default values for the picker
         final Calendar c = Calendar.getInstance();
-        int hora = c.get(Calendar.HOUR_OF_DAY);
-        int minuto = c.get(Calendar.MINUTE);
-
-        // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), this, hora, minuto,
+        return new TimePickerDialog(getActivity(), this,
+                c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
                 DateFormat.is24HourFormat(getActivity()));
     }
 
+    @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // Do something with the time chosen by the user
-        Log.d("DataHora", "Hora: "+String.valueOf(hourOfDay));
-        Log.d("DataHora", "Minuto: "+String.valueOf(minute));
+        String hora = String.format("%02d:%02d", hourOfDay, minute);
+        listener.onTimeSelected(hora);
     }
 }
