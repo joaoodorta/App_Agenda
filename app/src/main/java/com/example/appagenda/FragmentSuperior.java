@@ -7,6 +7,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,31 +32,44 @@ public class FragmentSuperior extends Fragment {
     private String horaSelecionada = "";
 
     @RequiresPermission(Manifest.permission.SCHEDULE_EXACT_ALARM)
-    private void agendarNotificacao(String data, String hora, String descricao){
-        try{
+    private void agendarNotificacao(String data, String hora, String descricao) {
+
+        AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
+        long triggerAtMillis = 0;
+        PendingIntent pendingIntent = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Toast.makeText(requireContext(), "Ative permissões de alarme exato nas configurações", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
             Date dataHora = sdf.parse(data + " " + hora);
             assert dataHora != null;
-            long triggerAtMillis = dataHora.getTime();
+            triggerAtMillis = dataHora.getTime();
 
-            Intent intent = new Intent(requireContext(),AlarmReceiver.class);
-            intent.putExtra("titulo","Compromisso agendado");
+            Intent intent = new Intent(requireContext(), AlarmReceiver.class);
+            intent.putExtra("titulo", "Compromisso agendado");
             intent.putExtra("descricao", descricao + "às " + hora);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+            pendingIntent = PendingIntent.getBroadcast(
                     requireContext(),
                     (int) currentTimeMillis(),
                     intent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
 
-            AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
-            if(alarmManager != null){
+            if (alarmManager != null) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
 
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -64,6 +79,18 @@ public class FragmentSuperior extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (requireContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        1001
+                );
+            }
+        }
+
+
+
         View view = inflater.inflate(R.layout.fragment_superior, container, false);
 
         EditText campoDescricao = view.findViewById(R.id.campo_descricao);
